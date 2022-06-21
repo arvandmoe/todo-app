@@ -1,0 +1,19 @@
+{
+    "todos": [
+        {
+            "id": 1,
+            "title": "Read react docs",
+            "completed": false
+        },
+        {
+            "id": 2,
+            "title": "Apply as a front-end dev @SnappShop",
+            "completed": true
+        },
+        {
+            "id": 3,
+            "title": "Water flowers or they will die",
+            "completed": false
+        }
+    ]
+}
