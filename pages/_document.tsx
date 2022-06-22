@@ -1,4 +1,4 @@
-import Document, { DocumentContext, DocumentInitialProps } from 'next/document'
+import Document, { DocumentContext, DocumentInitialProps, Head, Html, Main, NextScript } from 'next/document'
 
 class MyDocument extends Document {
   static async getInitialProps(
@@ -7,6 +7,24 @@ class MyDocument extends Document {
     const initialProps = await Document.getInitialProps(ctx)
 
     return initialProps
+  }
+
+  render() {
+    return (
+      <Html>
+        <Head>
+          <link rel="icon" href="/favicon.png" type="image/png" />
+          <link
+            href="https://fonts.googleapis.com/css2?family=Poppins&display=swap"
+            rel="stylesheet"
+          />
+        </Head>
+        <body>
+          <Main />
+          <NextScript />
+        </body>
+      </Html>
+    )
   }
 }
 
