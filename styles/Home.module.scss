@@ -28,17 +28,6 @@
   flex-grow: 1;
 }
 
-.title a {
-  color: #b400af;
-  text-decoration: none;
-
-  &:hover,
-  :focus,
-  :active {
-    text-decoration: underline;
-  }
-}
-
 .title {
   margin: 0;
   line-height: 1.15;
@@ -46,6 +35,17 @@
 
   .description {
     text-align: center;
+  }
+
+  & a {
+    color: #b400af;
+    text-decoration: none;
+  
+    &:hover,
+    :focus,
+    :active {
+      text-decoration: underline;
+    }
   }
 }
 
