@@ -1,3 +1,5 @@
+@import "./index.scss";
+
 .container {
   padding: 0 2rem;
 }
@@ -38,9 +40,9 @@
   }
 
   & a {
-    color: #b400af;
+    color: $primary-color;
     text-decoration: none;
-  
+
     &:hover,
     :focus,
     :active {
@@ -87,8 +89,8 @@
 .card:hover,
 .card:focus,
 .card:active {
-  color: #b400af;
-  border-color: #b400af;
+  color: $primary-color;
+  border-color: $primary-color;
 }
 
 .card h2 {
@@ -115,7 +117,7 @@
 }
 
 .link {
-  color: #b400af;
+  color: $primary-color;
   text-decoration: none;
 
   &:hover {

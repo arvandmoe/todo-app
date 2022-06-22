@@ -6,12 +6,14 @@ import useTodo from './hooks/useTodo'
 import styles from './TodoPage.module.scss'
 
 const TodoPage: NextPage<{ todos: Todo[] }> = ({ todos: initialTodos }) => {
-  const { todos, input, handleInputChange, onSubmit } = useTodo(initialTodos)
+  const { todos, input, handleInputChange, onSubmit, onDeleteTodo } =
+    useTodo(initialTodos)
 
   return (
     <div className={styles.container}>
       <Head>
         <title>Todo</title>
+        <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
         <h1 className={styles.title}>Todo</h1>
@@ -29,10 +31,20 @@ const TodoPage: NextPage<{ todos: Todo[] }> = ({ todos: initialTodos }) => {
             return (
               <div key={todo.id} className={styles.item}>
                 <p>{todo.title}</p>
-                <span>&#10006;</span>
+                <span
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => onDeleteTodo(todo.id)}
+                >
+                  &#10006;
+                </span>
               </div>
             )
           })}
+          {todos.length === 0 && (
+            <div className={styles.item}>
+              <p>No todos in here!</p>
+            </div>
+          )}
           <div className={styles.optionsContainer}>
             <div className={styles.leftItems}>3 items left</div>
             <div>
@@ -50,7 +62,7 @@ const TodoPage: NextPage<{ todos: Todo[] }> = ({ todos: initialTodos }) => {
 export default TodoPage
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const res = await fetch(`${BASE_URL}/todos`)
+  const res = await fetch(`${BASE_URL}todos`)
   const data: Todo[] = await res.json()
 
   return {

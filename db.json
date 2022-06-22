@@ -19,11 +19,6 @@
       "id": 4,
       "title": "Walk the dog",
       "completed": false
-    },
-    {
-      "title": "new thing",
-      "completed": false,
-      "id": 5
     }
   ]
 }

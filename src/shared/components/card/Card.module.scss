@@ -1,4 +1,4 @@
-.grid {
+@import "../../../../styles/index.scss" .grid {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -21,8 +21,8 @@
   &:hover,
   focus,
   active {
-    color: #b400af;
-    border-color: #b400af;
+    color: $primary-color;
+    border-color: $primary-color;
   }
 
   & h2 {

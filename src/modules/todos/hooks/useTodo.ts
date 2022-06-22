@@ -1,8 +1,9 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Todo } from 'shared/models/Todo';
+import { AddTodoDto, Todo } from 'shared/models/Todo';
 import { RootState } from "shared/redux/store";
-import { addTodo, initTodos } from '../store/todoSlice';
+import TodoService from "shared/services/todo-service";
+import { addTodo, deleteTodo, initTodos } from '../store/todoSlice';
 
 
 
@@ -21,16 +22,22 @@ const useTodo = (initialTodos: Todo[]) => {
         setInput(e.currentTarget.value)
     }
 
-    const onSubmit = (e: FormEvent<HTMLFormElement>): void => {
+    const onSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
         e.preventDefault();
         if (input !== "") {
-            const todo: Todo = { id: 4, title: input, completed: false }
+            const todoDto: AddTodoDto = { title: input, completed: false }
+            const todo = await TodoService.addTodo(todoDto)
             dispatch(addTodo(todo))
             setInput("")
         }
     }
 
-    return { todos, input, handleInputChange, onSubmit }
+    const onDeleteTodo = async (todoId: number) => {
+        dispatch(deleteTodo(todoId))
+        await TodoService.deleteTodo(todoId)
+    }
+
+    return { todos, input, handleInputChange, onSubmit, onDeleteTodo }
 }
 
 export default useTodo
