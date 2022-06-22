@@ -6,8 +6,14 @@ import useTodo from './hooks/useTodo'
 import styles from './TodoPage.module.scss'
 
 const TodoPage: NextPage<{ todos: Todo[] }> = ({ todos: initialTodos }) => {
-  const { todos, input, handleInputChange, onSubmit, onDeleteTodo } =
-    useTodo(initialTodos)
+  const {
+    leftTodosCount,
+    todos,
+    input,
+    handleInputChange,
+    onSubmit,
+    onDeleteTodo,
+  } = useTodo(initialTodos)
 
   return (
     <div className={styles.container}>
@@ -30,7 +36,9 @@ const TodoPage: NextPage<{ todos: Todo[] }> = ({ todos: initialTodos }) => {
           {todos.map((todo) => {
             return (
               <div key={todo.id} className={styles.item}>
-                <p>{todo.title}</p>
+                <p className={todo.completed ? styles.done : ''}>
+                  {todo.title}
+                </p>
                 <span
                   style={{ cursor: 'pointer' }}
                   onClick={() => onDeleteTodo(todo.id)}
@@ -46,7 +54,7 @@ const TodoPage: NextPage<{ todos: Todo[] }> = ({ todos: initialTodos }) => {
             </div>
           )}
           <div className={styles.optionsContainer}>
-            <div className={styles.leftItems}>3 items left</div>
+            <div className={styles.leftItems}>{leftTodosCount} items left</div>
             <div>
               <button className={styles.btn + ' ' + styles.active}>All</button>{' '}
               <button className={styles.btn}>Active</button>

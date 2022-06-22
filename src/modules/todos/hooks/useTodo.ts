@@ -10,9 +10,12 @@ import { addTodo, deleteTodo, initTodos } from '../store/todoSlice';
 const useTodo = (initialTodos: Todo[]) => {
 
     const todoState = useSelector((state: RootState) => state.todos);
+    const [input, setInput] = useState('');
+    const dispatch = useDispatch();
+
     const todos = todoState.data.length > 0 ? todoState.data : initialTodos;
-    const [input, setInput] = useState('')
-    const dispatch = useDispatch()
+    let leftTodosCount: number = todos.filter(todo => !todo.completed).length;
+
 
     useEffect(() => {
         dispatch(initTodos(initialTodos))
@@ -37,7 +40,7 @@ const useTodo = (initialTodos: Todo[]) => {
         await TodoService.deleteTodo(todoId)
     }
 
-    return { todos, input, handleInputChange, onSubmit, onDeleteTodo }
+    return { leftTodosCount, todos, input, handleInputChange, onSubmit, onDeleteTodo }
 }
 
 export default useTodo
