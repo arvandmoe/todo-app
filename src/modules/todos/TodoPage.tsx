@@ -1,37 +1,35 @@
 import { GetServerSideProps, NextPage } from 'next'
 import Head from 'next/head'
-import React, { ChangeEvent } from 'react'
-import { useState } from 'react'
 import { BASE_URL } from 'shared/constants'
 import { Todo } from 'shared/models/Todo'
+import useTodo from './hooks/useTodo'
 import styles from './TodoPage.module.scss'
 
-const TodoPage: NextPage<{ todos: Todo[] }> = ({ todos }) => {
-  const [state, setState] = useState('')
-
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setState(e.currentTarget.value)
-  }
+const TodoPage: NextPage<{ todos: Todo[] }> = ({ todos: initialTodos }) => {
+  const { todos, input, handleInputChange, onSubmit } = useTodo(initialTodos)
 
   return (
     <div className={styles.container}>
       <Head>
-        <title>Todo</title> 
+        <title>Todo</title>
       </Head>
       <main className={styles.main}>
         <h1 className={styles.title}>Todo</h1>
         <div className={styles.box}>
           <div className={styles.bar} />
-          <input
-            placeholder="What needs to be done?"
-            className={styles.input}
-            value={state}
-            onChange={handleInputChange}
-          />
+          <form onSubmit={onSubmit}>
+            <input
+              placeholder="What needs to be done?"
+              className={styles.input}
+              value={input}
+              onChange={handleInputChange}
+            />
+          </form>
           {todos.map((todo) => {
             return (
-              <div className={styles.item}>
-                <p>{todo.title}</p><span>&#10006;</span>
+              <div key={todo.id} className={styles.item}>
+                <p>{todo.title}</p>
+                <span>&#10006;</span>
               </div>
             )
           })}
