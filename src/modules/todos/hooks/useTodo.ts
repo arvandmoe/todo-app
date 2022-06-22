@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AddTodoDto, Todo } from 'shared/models/Todo';
 import { RootState } from "shared/redux/store";
 import TodoService from "shared/services/todo-service";
-import { addTodo, deleteTodo, initTodos } from '../store/todoSlice';
+import { addTodo, deleteTodo, initTodos, toggleTodo } from '../store/todoSlice';
 
 
 
@@ -40,7 +40,12 @@ const useTodo = (initialTodos: Todo[]) => {
         await TodoService.deleteTodo(todoId)
     }
 
-    return { leftTodosCount, todos, input, handleInputChange, onSubmit, onDeleteTodo }
+    const onTickTodo = async (todoId: number, currCompleted: boolean) => {
+        dispatch(toggleTodo(todoId))
+        await TodoService.toggleTodo(todoId, !currCompleted)
+    }
+
+    return { leftTodosCount, todos, input, handleInputChange, onSubmit, onDeleteTodo, onTickTodo }
 }
 
 export default useTodo

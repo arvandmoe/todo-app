@@ -12,9 +12,15 @@ const deleteTodo = async (todoId: number) => {
     return response.data
 }
 
+const toggleTodo = async (todoId: number, completed: boolean) => {
+    const response = await axiosClient.patch<Todo>(`todos/${todoId}`, { completed: completed })
+    return response.data
+}
+
 const TodoService = {
     addTodo,
-    deleteTodo
+    deleteTodo,
+    toggleTodo
 }
 
 export default TodoService

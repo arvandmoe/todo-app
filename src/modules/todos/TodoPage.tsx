@@ -13,6 +13,7 @@ const TodoPage: NextPage<{ todos: Todo[] }> = ({ todos: initialTodos }) => {
     handleInputChange,
     onSubmit,
     onDeleteTodo,
+    onTickTodo,
   } = useTodo(initialTodos)
 
   return (
@@ -37,6 +38,11 @@ const TodoPage: NextPage<{ todos: Todo[] }> = ({ todos: initialTodos }) => {
             return (
               <div key={todo.id} className={styles.item}>
                 <p className={todo.completed ? styles.done : ''}>
+                  <input
+                    type="checkbox"
+                    checked={todo.completed}
+                    onChange={() => onTickTodo(todo.id, todo.completed)}
+                  />
                   {todo.title}
                 </p>
                 <span
