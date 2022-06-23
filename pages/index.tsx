@@ -23,6 +23,7 @@ const Home: NextPage = () => {
             href="https://github.com/mdkhaki/todo-app"
             className={styles.link}
             target="_blank"
+            rel="noreferrer"
           >
             project repo
           </a>

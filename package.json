@@ -3,11 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "concurrently \"yarn server:dev\" \"yarn dev\"",
+    "dev": "concurrently \"yarn server:dev\" \"yarn dev\"",
     "server:dev": "json-server --watch db.json --port 3001",
-    "dev": "next dev",
     "build": "next build",
-    "start:prod": "next start",
+    "front:dev": "next dev",
+    "front:start": "next start",
+    "pre:start": "next build",
+    "start": "concurrently \"yarn server:dev\" \"yarn front:start\"",
     "lint": "next lint"
   },
   "dependencies": {

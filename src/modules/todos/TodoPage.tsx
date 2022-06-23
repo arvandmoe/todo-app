@@ -6,7 +6,10 @@ import { Todo } from 'shared/models/Todo'
 import useTodo from './hooks/useTodo'
 import styles from './TodoPage.module.scss'
 
-const TodoPage: NextPage<{ todos: Todo[] }> = ({ todos: initialTodos }) => {
+const TodoPage: NextPage<{ todos: Todo[]; hasError: boolean }> = ({
+  todos: initialTodos,
+  hasError,
+}) => {
   const {
     leftTodosCount,
     input,
@@ -110,6 +113,11 @@ const TodoPage: NextPage<{ todos: Todo[] }> = ({ todos: initialTodos }) => {
             </button>
           </div>
         </div>
+        {hasError && (
+          <div className={styles.error}>
+            Did you start the json-server properly?!
+          </div>
+        )}
       </main>
     </div>
   )
@@ -118,12 +126,25 @@ const TodoPage: NextPage<{ todos: Todo[] }> = ({ todos: initialTodos }) => {
 export default TodoPage
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const res = await fetch(`${BASE_URL}todos`)
-  const data: Todo[] = await res.json()
+  let hasError = true
+  try {
+    const res = await fetch(`${BASE_URL}todos`)
+    hasError = res.ok ? false : true
+    const data: Todo[] = await res.json()
 
-  return {
-    props: {
-      todos: data,
-    },
+    return {
+      props: {
+        todos: data,
+        hasError,
+      },
+    }
+  } catch (error) {
+    // report error to an error tracking service like sentry
+    return {
+      props: {
+        todos: [],
+        hasError,
+      },
+    }
   }
 }

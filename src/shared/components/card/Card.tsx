@@ -16,7 +16,7 @@ const Card: FC<CardProps> = ({
   blankTarget = false,
 }) => {
   const card = (
-    <a className={styles.card} href={href} target={blankTarget ? '_blank' : ''}>
+    <a className={styles.card} href={href} target={blankTarget ? '_blank' : ''} rel="noreferrer">
       <h2>{title} &rarr;</h2>
       <p>{description}</p>
     </a>
