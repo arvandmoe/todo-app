@@ -6,17 +6,27 @@ interface CardProps {
   href: string
   title: string
   description: string
+  blankTarget?: boolean
 }
 
-const Card: FC<CardProps> = ({ href, title, description: desc }) => {
+const Card: FC<CardProps> = ({
+  href,
+  title,
+  description,
+  blankTarget = false,
+}) => {
+  const card = (
+    <a className={styles.card} href={href} target={blankTarget ? '_blank' : ''}>
+      <h2>{title} &rarr;</h2>
+      <p>{description}</p>
+    </a>
+  )
+
+  if (blankTarget) return card
+
   return (
     <div className={styles.grid}>
-      <Link href={`/${href}`}>
-        <a className={styles.card}>
-          <h2>{title} &rarr;</h2>
-          <p>{desc}</p>
-        </a>
-      </Link>
+      <Link href={`/${href}`}>{card}</Link>
     </div>
   )
 }
