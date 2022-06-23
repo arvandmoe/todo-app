@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { Todo } from 'shared/models/Todo'
+import { EditTodoDto, Todo } from 'shared/models/Todo'
 
 export const initialState = { data: [] as Todo[] }
 
@@ -22,6 +22,10 @@ const todoSlice = createSlice({
             let todo = state.data.find((todo) => todo.id === action.payload)
             if (todo) todo.completed = !todo?.completed
         },
+        editTodo(state, action: PayloadAction<Todo>) {
+            let todo = state.data.find((todo) => todo.id === action.payload.id)
+            todo = action.payload
+        },
         clearCompletedTodos(state) {
             return { data: state.data.filter(todo => !todo.completed) }
         }
@@ -29,5 +33,5 @@ const todoSlice = createSlice({
     }
 })
 
-export const { initTodos, addTodo, deleteTodo, toggleTodo, clearCompletedTodos } = todoSlice.actions
+export const { initTodos, addTodo, deleteTodo, toggleTodo, editTodo, clearCompletedTodos } = todoSlice.actions
 export default todoSlice.reducer

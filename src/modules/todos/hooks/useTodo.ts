@@ -5,13 +5,14 @@ import { FILTER } from "shared/constants/todo-filter";
 import { AddTodoDto, Todo } from 'shared/models/Todo';
 import { RootState } from "shared/redux/store";
 import TodoService from "shared/services/todo-service";
-import { addTodo, clearCompletedTodos, deleteTodo, initTodos, toggleTodo } from '../store/todoSlice';
+import { addTodo, clearCompletedTodos, deleteTodo, editTodo, initTodos, toggleTodo } from '../store/todoSlice';
 
 
 const useTodo = (initialTodos: Todo[]) => {
 
     const todoState = useSelector((state: RootState) => state.todos);
     const [input, setInput] = useState('');
+    const [rename, setRename] = useState({ value: '', id: 0 });
     const dispatch = useDispatch();
     const router = useRouter();
     const [filter, setFilter] = useState(router.query.filter ?? FILTER.ALL);
@@ -48,6 +49,11 @@ const useTodo = (initialTodos: Todo[]) => {
         await TodoService.toggleTodo(todoId, !currCompleted)
     }
 
+    const onRenameTodo = async (todo: Todo) => {
+        dispatch(editTodo(todo))
+        await TodoService.patchTodo(todo.id, todo)
+    }
+
     const onFilterButton = (newFilter: string) => {
         if (Object.values(FILTER).includes(newFilter)) {
             setFilter(newFilter)
@@ -64,7 +70,7 @@ const useTodo = (initialTodos: Todo[]) => {
         })
     }
 
-    return { leftTodosCount, input, todos, filter, onFilterButton, handleInputChange, onSubmit, onDeleteTodo, onTickTodo, onClearCompletedButton }
+    return { leftTodosCount, input, todos, rename, setRename, filter, onFilterButton, handleInputChange, onSubmit, onDeleteTodo, onTickTodo, onRenameTodo, onClearCompletedButton }
 }
 
 export default useTodo

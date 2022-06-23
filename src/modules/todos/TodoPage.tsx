@@ -17,6 +17,7 @@ const TodoPage: NextPage<{ todos: Todo[] }> = ({ todos: initialTodos }) => {
     onSubmit,
     onDeleteTodo,
     onTickTodo,
+    onRenameTodo,
     onClearCompletedButton,
   } = useTodo(initialTodos)
 
@@ -46,14 +47,27 @@ const TodoPage: NextPage<{ todos: Todo[] }> = ({ todos: initialTodos }) => {
             .map((todo) => {
               return (
                 <div key={todo.id} className={styles.item}>
-                  <p className={todo.completed ? styles.done : ''}>
+                  <div className={styles.itemWrap}>
                     <input
                       type="checkbox"
                       checked={todo.completed}
                       onChange={() => onTickTodo(todo.id, todo.completed)}
                     />
-                    {todo.title}
-                  </p>
+                    <p
+                      className={todo.completed ? styles.done : ''}
+                      contentEditable
+                      suppressContentEditableWarning={true}
+                      onBlur={(e) => {
+                        onRenameTodo({
+                          id: todo.id,
+                          title: e.currentTarget.textContent ?? todo.title,
+                          completed: todo.completed,
+                        })
+                      }}
+                    >
+                      {todo.title}
+                    </p>
+                  </div>
                   <span
                     style={{ cursor: 'pointer' }}
                     onClick={() => onDeleteTodo(todo.id)}

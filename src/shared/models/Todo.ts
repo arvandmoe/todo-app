@@ -8,3 +8,8 @@ export interface AddTodoDto {
     title: string
     completed: boolean
 } 
+
+export interface EditTodoDto {
+    title: string
+    completed: boolean
+} 

@@ -2,8 +2,8 @@
   "todos": [
     {
       "id": 1,
-      "title": "Read react docs",
-      "completed": false
+      "title": "Read react docs ",
+      "completed": true
     },
     {
       "id": 2,

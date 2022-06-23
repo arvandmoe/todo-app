@@ -19,3 +19,11 @@ a {
 p {
   font-family: 'Poppins';
 }
+
+input:focus, textarea:focus, select:focus{
+  outline: none;
+}
+
+[contenteditable] {
+  outline: 0px solid transparent;
+}

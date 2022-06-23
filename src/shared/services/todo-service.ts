@@ -1,4 +1,4 @@
-import { AddTodoDto } from './../models/Todo';
+import { AddTodoDto, EditTodoDto } from './../models/Todo';
 import { axiosClient } from 'common/network/axios-client';
 import { Todo } from 'models/Todo';
 
@@ -17,10 +17,16 @@ const toggleTodo = async (todoId: number, completed: boolean) => {
     return response.data
 }
 
+const patchTodo = async (todoId: number, editDto: EditTodoDto) => {
+    const response = await axiosClient.patch<Todo>(`todos/${todoId}`, editDto)
+    return response.data
+}
+
 const TodoService = {
     addTodo,
     deleteTodo,
-    toggleTodo
+    toggleTodo,
+    patchTodo
 }
 
 export default TodoService

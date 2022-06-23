@@ -50,8 +50,14 @@
     }
 }
 
+.itemWrap {
+    display: flex;
+    align-items: center;
+}
+
 .done {
     text-decoration: line-through;
+    color: $primary-color;
 }
 
 .box {
