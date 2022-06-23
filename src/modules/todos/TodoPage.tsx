@@ -17,6 +17,7 @@ const TodoPage: NextPage<{ todos: Todo[] }> = ({ todos: initialTodos }) => {
     onSubmit,
     onDeleteTodo,
     onTickTodo,
+    onClearCompletedButton,
   } = useTodo(initialTodos)
 
   return (
@@ -63,7 +64,7 @@ const TodoPage: NextPage<{ todos: Todo[] }> = ({ todos: initialTodos }) => {
               )
             })}
           {todos.length === 0 && (
-            <div className={styles.item}>
+            <div className={styles.item} style={{ justifyContent: 'center' }}>
               <p>No todos in here!</p>
             </div>
           )}
@@ -87,7 +88,12 @@ const TodoPage: NextPage<{ todos: Todo[] }> = ({ todos: initialTodos }) => {
                 Active
               </button>
             </div>
-            <button className={styles.btnClear}>Clear Completed</button>
+            <button
+              className={styles.btnClear}
+              onClick={onClearCompletedButton}
+            >
+              Clear Completed
+            </button>
           </div>
         </div>
       </main>

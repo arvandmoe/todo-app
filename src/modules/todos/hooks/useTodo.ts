@@ -5,7 +5,7 @@ import { FILTER } from "shared/constants/todo-filter";
 import { AddTodoDto, Todo } from 'shared/models/Todo';
 import { RootState } from "shared/redux/store";
 import TodoService from "shared/services/todo-service";
-import { addTodo, deleteTodo, initTodos, toggleTodo } from '../store/todoSlice';
+import { addTodo, clearCompletedTodos, deleteTodo, initTodos, toggleTodo } from '../store/todoSlice';
 
 
 const useTodo = (initialTodos: Todo[]) => {
@@ -55,7 +55,16 @@ const useTodo = (initialTodos: Todo[]) => {
         }
     }
 
-    return { leftTodosCount, input, todos, filter, onFilterButton, handleInputChange, onSubmit, onDeleteTodo, onTickTodo }
+    const onClearCompletedButton = () => {
+        dispatch(clearCompletedTodos())
+        // delete each completed todo manually
+        // TODO: does json-server include a collection patch request to do this at once?!
+        todos.filter(todo => todo.completed).forEach((todo) => {
+            TodoService.deleteTodo(todo.id)
+        })
+    }
+
+    return { leftTodosCount, input, todos, filter, onFilterButton, handleInputChange, onSubmit, onDeleteTodo, onTickTodo, onClearCompletedButton }
 }
 
 export default useTodo
