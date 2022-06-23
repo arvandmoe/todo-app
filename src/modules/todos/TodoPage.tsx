@@ -1,6 +1,7 @@
 import { GetServerSideProps, NextPage } from 'next'
 import Head from 'next/head'
 import { BASE_URL } from 'shared/constants'
+import { FILTER } from 'shared/constants/todo-filter'
 import { Todo } from 'shared/models/Todo'
 import useTodo from './hooks/useTodo'
 import styles from './TodoPage.module.scss'
@@ -8,8 +9,10 @@ import styles from './TodoPage.module.scss'
 const TodoPage: NextPage<{ todos: Todo[] }> = ({ todos: initialTodos }) => {
   const {
     leftTodosCount,
-    todos,
     input,
+    todos,
+    filter,
+    onFilterButton,
     handleInputChange,
     onSubmit,
     onDeleteTodo,
@@ -34,26 +37,31 @@ const TodoPage: NextPage<{ todos: Todo[] }> = ({ todos: initialTodos }) => {
               onChange={handleInputChange}
             />
           </form>
-          {todos.map((todo) => {
-            return (
-              <div key={todo.id} className={styles.item}>
-                <p className={todo.completed ? styles.done : ''}>
-                  <input
-                    type="checkbox"
-                    checked={todo.completed}
-                    onChange={() => onTickTodo(todo.id, todo.completed)}
-                  />
-                  {todo.title}
-                </p>
-                <span
-                  style={{ cursor: 'pointer' }}
-                  onClick={() => onDeleteTodo(todo.id)}
-                >
-                  &#10006;
-                </span>
-              </div>
-            )
-          })}
+          {todos
+            .filter((todo) => {
+              if (filter === FILTER.ACTIVE) return !todo.completed
+              else return true
+            })
+            .map((todo) => {
+              return (
+                <div key={todo.id} className={styles.item}>
+                  <p className={todo.completed ? styles.done : ''}>
+                    <input
+                      type="checkbox"
+                      checked={todo.completed}
+                      onChange={() => onTickTodo(todo.id, todo.completed)}
+                    />
+                    {todo.title}
+                  </p>
+                  <span
+                    style={{ cursor: 'pointer' }}
+                    onClick={() => onDeleteTodo(todo.id)}
+                  >
+                    &#10006;
+                  </span>
+                </div>
+              )
+            })}
           {todos.length === 0 && (
             <div className={styles.item}>
               <p>No todos in here!</p>
@@ -62,8 +70,22 @@ const TodoPage: NextPage<{ todos: Todo[] }> = ({ todos: initialTodos }) => {
           <div className={styles.optionsContainer}>
             <div className={styles.leftItems}>{leftTodosCount} items left</div>
             <div>
-              <button className={styles.btn + ' ' + styles.active}>All</button>{' '}
-              <button className={styles.btn}>Active</button>
+              <button
+                className={
+                  filter === FILTER.ALL ? styles.btnActive : styles.btn
+                }
+                onClick={() => onFilterButton(FILTER.ALL)}
+              >
+                All
+              </button>{' '}
+              <button
+                className={
+                  filter === FILTER.ACTIVE ? styles.btnActive : styles.btn
+                }
+                onClick={() => onFilterButton(FILTER.ACTIVE)}
+              >
+                Active
+              </button>
             </div>
             <button className={styles.btnClear}>Clear Completed</button>
           </div>

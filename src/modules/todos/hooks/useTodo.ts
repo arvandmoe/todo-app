@@ -1,10 +1,11 @@
+import { useRouter } from "next/router";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { FILTER } from "shared/constants/todo-filter";
 import { AddTodoDto, Todo } from 'shared/models/Todo';
 import { RootState } from "shared/redux/store";
 import TodoService from "shared/services/todo-service";
 import { addTodo, deleteTodo, initTodos, toggleTodo } from '../store/todoSlice';
-
 
 
 const useTodo = (initialTodos: Todo[]) => {
@@ -12,6 +13,8 @@ const useTodo = (initialTodos: Todo[]) => {
     const todoState = useSelector((state: RootState) => state.todos);
     const [input, setInput] = useState('');
     const dispatch = useDispatch();
+    const router = useRouter();
+    const [filter, setFilter] = useState(router.query.filter ?? FILTER.ALL);
 
     const todos = todoState.data.length > 0 ? todoState.data : initialTodos;
     let leftTodosCount: number = todos.filter(todo => !todo.completed).length;
@@ -45,7 +48,14 @@ const useTodo = (initialTodos: Todo[]) => {
         await TodoService.toggleTodo(todoId, !currCompleted)
     }
 
-    return { leftTodosCount, todos, input, handleInputChange, onSubmit, onDeleteTodo, onTickTodo }
+    const onFilterButton = (newFilter: string) => {
+        if (Object.values(FILTER).includes(newFilter)) {
+            setFilter(newFilter)
+            router.push(router.pathname, { query: { filter: newFilter } })
+        }
+    }
+
+    return { leftTodosCount, input, todos, filter, onFilterButton, handleInputChange, onSubmit, onDeleteTodo, onTickTodo }
 }
 
 export default useTodo

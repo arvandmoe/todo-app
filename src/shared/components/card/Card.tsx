@@ -11,7 +11,7 @@ interface CardProps {
 const Card: FC<CardProps> = ({ href, title, description: desc }) => {
   return (
     <div className={styles.grid}>
-      <Link href={href}>
+      <Link href={`/${href}`}>
         <a className={styles.card}>
           <h2>{title} &rarr;</h2>
           <p>{desc}</p>

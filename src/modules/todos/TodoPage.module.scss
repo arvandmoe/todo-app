@@ -102,10 +102,14 @@
     cursor: pointer;
     font-size: medium;
     padding: 0rem 0.2rem;
+}
 
-    &.active {
-        font-weight: bold;
-    }
+.btnActive {
+    all: unset;
+    cursor: pointer;
+    font-size: medium;
+    padding: 0rem 0.2rem;
+    font-weight: bold;
 }
 
 .btnClear {
