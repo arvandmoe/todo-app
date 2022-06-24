@@ -34,7 +34,7 @@ const TodoPage: NextPage<{ todos: Todo[]; hasError: boolean }> = ({
         <h1 className={styles.title}>Todo</h1>
         <div className={styles.box}>
           <div className={styles.bar} />
-          <form onSubmit={onSubmit}>
+          <form name="todo-name" onSubmit={onSubmit}>
             <input
               placeholder="What needs to be done?"
               className={styles.input}
@@ -72,6 +72,7 @@ const TodoPage: NextPage<{ todos: Todo[]; hasError: boolean }> = ({
                     </p>
                   </div>
                   <span
+                    data-testid={`delete-${todo.title}`}
                     style={{ cursor: 'pointer' }}
                     onClick={() => onDeleteTodo(todo.id)}
                   >
