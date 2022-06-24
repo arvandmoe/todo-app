@@ -11,6 +11,7 @@
     "pre:start": "next build",
     "start": "concurrently \"yarn server:dev\" \"yarn front:start\"",
     "lint": "next lint",
+    "pre:cypress": "yarn dev",
     "cypress": "cypress open"
   },
   "dependencies": {

@@ -1,0 +1,24 @@
+{
+  "todos": [
+    {
+      "id": 1,
+      "title": "Read react docs ",
+      "completed": true
+    },
+    {
+      "id": 2,
+      "title": "Apply to SnappShopp as a front-end dev",
+      "completed": true
+    },
+    {
+      "id": 3,
+      "title": "Water flowers or they will die",
+      "completed": false
+    },
+    {
+      "id": 4,
+      "title": "Walk the dog",
+      "completed": false
+    }
+  ]
+}

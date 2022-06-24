@@ -49,12 +49,17 @@ const TodoPage: NextPage<{ todos: Todo[]; hasError: boolean }> = ({
             })
             .map((todo) => {
               return (
-                <div key={todo.id} className={styles.item}>
+                <div
+                  key={todo.id}
+                  className={styles.item}
+                  data-testid={`todo-${todo.completed}`}
+                >
                   <div className={styles.itemWrap}>
                     <input
                       type="checkbox"
                       checked={todo.completed}
                       onChange={() => onTickTodo(todo.id, todo.completed)}
+                      data-testid={`checkbox-${todo.completed}`}
                     />
                     <p
                       className={todo.completed ? styles.done : ''}
@@ -72,9 +77,9 @@ const TodoPage: NextPage<{ todos: Todo[]; hasError: boolean }> = ({
                     </p>
                   </div>
                   <span
-                    data-testid={`delete-${todo.title}`}
                     style={{ cursor: 'pointer' }}
                     onClick={() => onDeleteTodo(todo.id)}
+                    data-testid={`delete-${todo.title}`}
                   >
                     &#10006;
                   </span>
@@ -87,7 +92,9 @@ const TodoPage: NextPage<{ todos: Todo[]; hasError: boolean }> = ({
             </div>
           )}
           <div className={styles.optionsContainer}>
-            <div className={styles.leftItems}>{leftTodosCount} items left</div>
+            <div className={styles.leftItems}>
+              <span id="leftTodosCount">{leftTodosCount}</span> items left
+            </div>
             <div>
               <button
                 className={
